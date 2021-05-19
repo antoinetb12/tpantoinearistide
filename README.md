@@ -1,132 +1,65 @@
----
-page_type: sample
-languages:
-- javascript
-- typescript
-- nodejs
-name: "JavaScript end-to-end client file upload to Azure Storage Blobs"
-description: "Locally build and deploy client application to an Azure Static Web App with a GitHub action, analyze image with Cognitive Services Computer Vision."
-products:
-- azure
-- azure-storage
-- azure-portal
-- vs-code
-- azure-computer-vision
-- azure-app-service-static
----
+#Création du groupe de ressource
 
-# JavaScript end-to-end client file upload to Azure Storage Blobs
+az group create --name cnamparis -l westeurope
 
-This sample project is a TypeScript React (create-react-app) framework client app with an HTML form to select a file for upload to Azure Storage Blobs. 
+#Création du compte de stockage
 
-The user:
-* selects an image from the file system
-* uploads the image to Storage Blobs
+az storage account create --name tpantoinearistide --resource-group cnamparis --sku Standard_LRS -l westeurope
 
-* [Read Tutorial](https://docs.microsoft.com/azure/developer/javascript/tutorial/browser-file-upload-azure-storage-blob) - The tutorial demonstrates how to load and run the project locally with VSCode. The tutorial includes creating a Storage resource, SAS token and CORS configuration. 
+#Créer la ressource Cognitive services
+
+az cognitiveservices account create -n tpantoinearistide -g cnamparis --kind ComputerVision --sku F0 -l WestEurope --yes
 
 
-## Sample application
+#Créer la ressource Cosmos
 
-The React (create-react-app) client app consists of the following elements:
+az cosmosdb create --name tpantoinearistide --resource-group cnamparis --kind  
+GlobalDocumentDB --locations regionName=WestEurope --capabilities EnableServerless
 
-* **React** app hosted on port 3000
-* uploadToBlob.ts using **@azure/storage-blob** client library to create Blob container and upload file
 
-## Features
+#Créer une ressource Web app
 
-This project framework provides the following features:
 
-* Create Azure Storage resource
-* Generate SAS token for Storage resource
-* Set Storage resource CORS
-* Select and upload file to Azure Storage Blob Container
+az appservice plan create --resource-group cnamparis --name plantpantoinearistide
 
-## Getting Started
+az webapp create -g cnamparis -p plantpantoinearistide -n tpantoinearistide --runtime "node|12-lts"
 
-1. Clone or download repo. 
-1. Create Azure Storage resource - using /scripts/newStorageService.js. This resource name is the `storageAccountName`.
-1. Generate SAS Token for Storage resource - using /scripts/az-storage-generte-sas.sh. This value is the `sasToken`.
-1. Configure CORS for browser - using /scripts/az-storage-cors-add.sh
+#Créer une ressource Function app
 
-    Settings for CORS:
-    * Allowed origins: `*`
-    * Allowed methods: `DELETE, GET, HEAD, MERGE, POST, OPTIONS, and PUT`
-    * Allowed headers: `*`
-    * Exposed headers: `*`
-    * Max age: `86400`
-1. Install dependencies: 
+az functionapp create --consumption-plan-location WestEurope --name tpantoinearistide2 --os-type Windows --resource-group cnamparis --runtime node --storage-account tpantoinearistide --runtime-version 10
 
-    ```javascript
-    npm install
-    ```
+#Configuration function
 
-    To run the React app, you need the following Azure SDK client npm packages:
-    * @azure/ms-rest-nodeauth
-    * @azure/storage-blob
+Dans la fonction app : (Analyse Image)
+Dans la console d’AnalyseImage
 
-    A third Azure package, @azure/arm-storage, is listed in the `package.json` strictly for use by the `scripts/newStorageService.js` file to create a new Azure Storage resource.
+npm install @azure/ms-rest-js
+npm install async
+npm install @azure/cognitiveservices-computervision 
+npm install @azure/cosmos
 
-1. Set Storage information found at the top of /src/uploadToBlob.ts:
 
-    ```javascript
-    const storageAccountName = "";
-    const sasToken = "";
-    ```
 
-1. Start project: 
+Ces fonctions se trouvent dans le git dans le dossier fonctions il faudra les importer dans l’application de fonction
+: Analyse Image et getImages
 
-    ```javascript
-    npm start
-    ```
+pour lancer les fonction il faudra changer les keys dans les programmes avec les valeurs que Azure vous a fournit
 
-1. View project in browser, `http://localhost:3000`.
+#Test du web
 
-1. Select image then select `Upload!`. 
+Pour le web il faudra le faire en local, car le déploiement n’a pas fonctionné, il suffit normalement de juste faire un npm install et npm start pour que le projet fonctionne.
+ De plus il faudra ajouter dans le azure-storage-blob.ts le Token SAP qu’il faudra générer dans le Storage account et ensuite remplacer le const sasToken = process.env.storagesastoken || "sv=2020-02-10&ss=bfqt&srt=sco&sp=rwdlacupx&se=2021-05-28T14:30:07Z&st=2021-05-19T06:30:07Z&spr=https&sig=caVSUsDR6Y2bBQ%2BTNFPoj%2BYdXDyM7BSy74MzoBfzuxg%3D"; // Fill string with your SAS token
 
-    Page displays images in container. 
+const containerName = `images`
+const storageAccountName = process.env.storageresourcename || "tpantoinearistide"; // Fill string with your Storage resource name
 
-## Prerequisites
+si besoin d’information complémentaire : https://docs.microsoft.com/fr-fr/azure/developer/javascript/tutorial/browser-file-upload-azure-storage-blob 
 
-- Git, if cloning 
-- Node.js and NPM
-- Web browser
-- Azure subscription to create resource on
+Ensuite vous pourrez lancer la commande npm start afin de lancer le site et de le tester. Dans celui ci vous pourrez upload une photo en jpg, je vous conseille de tester avec l’image 
+https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/MultiLingual.png en la transformant en jpg ou alors de la récupérer dans le git celle ci s’appelle test.jpg. Ceci va appeler la fonction azure AnalyseImage.
 
-## Installation
+Puis vous pourrez voir dans azure que la base de données cosmosdb s’est remplie avec le texte contenu dans la photo. Et que la photo se trouve dans le groupe de stockage.
 
-1. Install the sample's dependencies:
+De plus vous pourrez tester directement sur Azure la fonction getImage en lui spécifiant pas de paramètre.
 
-   ```javascript
-    npm install
-    ```
-
-1. Run the command to run the web app.
-
-    ```javascript
-    npm start
-    ```
-
-1. Open a web browser and use the following url to view the client app on your local computer.
-
-    ```url
-    http://localhost:3000/
-    ```
-
-## Troubleshooting
-
-If you received an error or your file doesn't upload to the container, check the following:
-
-* Recreate your SAS token, making sure that your token is created at the Storage resource level and not the container level. Copy the new token into the code at the correct location.
-* Check that the token string you copied into the code doesn't contain the `?` (question mark) at the beginning of the string.
-* Verify your CORS setting for your Storage resource.
-
-## Additional scripts
-
-* Create Azure Storage Blob from JavaScript file: scripts/newStorageService.js
-* Set CORS for service using Azure CLI script: scripts/az-storage-cors-add.sh
-* Generate SAS Token using Azure CLI script: scripts/az-storage-generate-sas.sh
-
-## Images
-
-The /images folder includes images for upload. 
+En soit le projet était presque terminé, nos point de blocages actuels sont la non connaissance de react qui nous empêche de transformer la réponse json que nous renvoie getImages en grille lisible et le fait que le déploiement du site ne fonctionne pas depuis github sur Azure.

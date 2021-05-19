@@ -1,0 +1,21 @@
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "images/{name}.jpg",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "database",
+      "databaseName": "tpantoinearistide",
+      "collectionName": "images",
+      "createIfNotExists": true,
+      "connectionStringSetting": "tpantoinearistide_DOCUMENTDB",
+      "partitionKey": "/image",
+      "direction": "out",
+      "type": "cosmosDB"
+    }
+  ]
+}

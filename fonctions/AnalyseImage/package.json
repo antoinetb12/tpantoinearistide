@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@azure/cognitiveservices-computervision": "^8.0.0",
+    "@azure/cognitiveservices-videosearch": "^3.0.1",
+    "async": "^3.2.0",
+    "ms-rest-azure": "^3.0.0"
+  },
+  "repository": {
+    "private": true
+  }
+}
