@@ -1,102 +1,132 @@
-# Angular Template
+---
+page_type: sample
+languages:
+- javascript
+- typescript
+- nodejs
+name: "JavaScript end-to-end client file upload to Azure Storage Blobs"
+description: "Locally build and deploy client application to an Azure Static Web App with a GitHub action, analyze image with Cognitive Services Computer Vision."
+products:
+- azure
+- azure-storage
+- azure-portal
+- vs-code
+- azure-computer-vision
+- azure-app-service-static
+---
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
+# JavaScript end-to-end client file upload to Azure Storage Blobs
 
-- [Table of Contents](#table-of-contents)
-- [About The Project](#about-the-project)
-  - [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
+This sample project is a TypeScript React (create-react-app) framework client app with an HTML form to select a file for upload to Azure Storage Blobs. 
+
+The user:
+* selects an image from the file system
+* uploads the image to Storage Blobs
+
+* [Read Tutorial](https://docs.microsoft.com/azure/developer/javascript/tutorial/browser-file-upload-azure-storage-blob) - The tutorial demonstrates how to load and run the project locally with VSCode. The tutorial includes creating a Storage resource, SAS token and CORS configuration. 
 
 
+## Sample application
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+The React (create-react-app) client app consists of the following elements:
 
-Angular Enterprise Edition Template with a modern dashboard and dark mode option.
+* **React** app hosted on port 3000
+* uploadToBlob.ts using **@azure/storage-blob** client library to create Blob container and upload file
 
-### Built With
+## Features
 
-This template was built with:
+This project framework provides the following features:
 
-* [Angular 10](https://material.angular.io/)
-* [Angular Material](https://material.angular.io/)
-* [chart.js](https://www.chartjs.org/)
+* Create Azure Storage resource
+* Generate SAS token for Storage resource
+* Set Storage resource CORS
+* Select and upload file to Azure Storage Blob Container
 
-<!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+1. Clone or download repo. 
+1. Create Azure Storage resource - using /scripts/newStorageService.js. This resource name is the `storageAccountName`.
+1. Generate SAS Token for Storage resource - using /scripts/az-storage-generte-sas.sh. This value is the `sasToken`.
+1. Configure CORS for browser - using /scripts/az-storage-cors-add.sh
 
-### Prerequisites
+    Settings for CORS:
+    * Allowed origins: `*`
+    * Allowed methods: `DELETE, GET, HEAD, MERGE, POST, OPTIONS, and PUT`
+    * Allowed headers: `*`
+    * Exposed headers: `*`
+    * Max age: `86400`
+1. Install dependencies: 
 
-You should have node.js and angular CLI installed.
+    ```javascript
+    npm install
+    ```
 
-After node is installed run 
+    To run the React app, you need the following Azure SDK client npm packages:
+    * @azure/ms-rest-nodeauth
+    * @azure/storage-blob
 
-* Angular CLI
-```sh
-npm install -g @angular/cli
-```
+    A third Azure package, @azure/arm-storage, is listed in the `package.json` strictly for use by the `scripts/newStorageService.js` file to create a new Azure Storage resource.
 
-### Installation
+1. Set Storage information found at the top of /src/uploadToBlob.ts:
 
-1. Clone the repo
-```sh
-git clone https://github.com/danicaliforrnia/angular-template.git
-```
-3. Install NPM packages
-```sh
-npm install
-```
-4. Run
-```sh
-ng serve --o --host 0.0.0.0
-```
+    ```javascript
+    const storageAccountName = "";
+    const sasToken = "";
+    ```
 
-Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Start project: 
 
-5. Deploy
-<br><br>
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+    ```javascript
+    npm start
+    ```
 
-<!-- USAGE EXAMPLES -->
-## Usage
+1. View project in browser, `http://localhost:3000`.
 
-This template has a dashboard as default landing page. This dashboard displays modern charts with 
-analytics data.
+1. Select image then select `Upload!`. 
 
-<!--Images here-->
+    Page displays images in container. 
 
-You can go to sign in or sign up page with these routes <!--route here-->
+## Prerequisites
 
-<!-- CONTRIBUTING -->
-## Contributing
+- Git, if cloning 
+- Node.js and NPM
+- Web browser
+- Azure subscription to create resource on
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## Installation
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/amazing_feature`)
-3. Commit your Changes (`git commit -m 'My new amazing feature'`)
-4. Push to the Branch (`git push origin feature/amazing_feature`)
-5. Open a Pull Request
+1. Install the sample's dependencies:
 
-<!-- LICENSE -->
-## License
+   ```javascript
+    npm install
+    ```
 
-Distributed under the MIT License.
+1. Run the command to run the web app.
 
-<!-- CONTACT -->
-## Contact
+    ```javascript
+    npm start
+    ```
 
-Daniel Stefanelli -
-[My portfolio](https://www.daniel.stefanelli.h@gmail.com) - 
-[daniel-stefanelli Linkedin](https://www.linkedin.com/in/daniel-stefanelli/)
+1. Open a web browser and use the following url to view the client app on your local computer.
+
+    ```url
+    http://localhost:3000/
+    ```
+
+## Troubleshooting
+
+If you received an error or your file doesn't upload to the container, check the following:
+
+* Recreate your SAS token, making sure that your token is created at the Storage resource level and not the container level. Copy the new token into the code at the correct location.
+* Check that the token string you copied into the code doesn't contain the `?` (question mark) at the beginning of the string.
+* Verify your CORS setting for your Storage resource.
+
+## Additional scripts
+
+* Create Azure Storage Blob from JavaScript file: scripts/newStorageService.js
+* Set CORS for service using Azure CLI script: scripts/az-storage-cors-add.sh
+* Generate SAS Token using Azure CLI script: scripts/az-storage-generate-sas.sh
+
+## Images
+
+The /images folder includes images for upload. 

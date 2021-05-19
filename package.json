@@ -1,74 +1,42 @@
 {
-  "name": "angular-template",
-  "version": "1.0.0",
-  "author": {
-    "name": "Daniel Stefanelli",
-    "email": "daniel.stefanelli.h@gmail.com",
-    "url": "https://danielstefanelli.com"
-  },
-  "description": "Angular dashboard template",
-  "repository": {
-    "type": "Git",
-    "url": "https://github.com/danicaliforrnia/angular-template"
-  },
-  "keywords": [
-    "angular",
-    "dashboard",
-    "material",
-    "template"
-  ],
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve --o --host 0.0.0.0",
-    "build": "ng build",
-    "deploy:subdomain": "ng deploy --cname=angular-template.danielstefanelli.com",
-    "deploy:github-domain": "ng deploy --base-href=/angular-template/",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
+  "name": "js-e2e-browser-file-upload-storage-blob",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@angular/animations": "~10.0.7",
-    "@angular/cdk": "^10.1.1",
-    "@angular/common": "~10.0.7",
-    "@angular/compiler": "~10.0.7",
-    "@angular/core": "~10.0.7",
-    "@angular/flex-layout": "^10.0.0-beta.32",
-    "@angular/forms": "~10.0.7",
-    "@angular/material": "^10.1.1",
-    "@angular/platform-browser": "~10.0.7",
-    "@angular/platform-browser-dynamic": "~10.0.7",
-    "@angular/router": "~10.0.7",
-    "@swimlane/ngx-charts": "^16.0.0",
-    "chart.js": "^2.9.3",
-    "ng2-charts": "^2.4.1",
-    "ngx-avatar": "^4.0.0",
-    "ngx-pagination": "^5.0.0",
-    "rxjs": "~6.5.4",
-    "simplebar-angular": "^2.2.1",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "@azure/arm-storage": "^15.1.0",
+    "@azure/ms-rest-nodeauth": "^3.0.6",
+    "@azure/storage-blob": "^12.2.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3",
+    "typescript": "~3.8.3"
   },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1000.5",
-    "@angular/cli": "~10.0.5",
-    "@angular/compiler-cli": "~10.0.7",
-    "@types/jasmine": "~3.5.0",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
-    "angular-cli-ghpages": "^0.6.2",
-    "codelyzer": "^6.0.0",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
-    "typescript": "~3.9.7"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
