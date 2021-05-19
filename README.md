@@ -60,6 +60,6 @@ https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-f
 
 Puis vous pourrez voir dans azure que la base de données cosmosdb s’est remplie avec le texte contenu dans la photo. Et que la photo se trouve dans le groupe de stockage.
 
-De plus vous pourrez tester directement sur Azure la fonction getImage en lui spécifiant pas de paramètre, ou alors en lancant la fonction depuis l'extérieur comme un api
+De plus vous pourrez tester directement sur Azure la fonction getImage en lui spécifiant pas de paramètre, ou alors en lancant la fonction depuis l'extérieur comme une api
 
 En soit le projet était presque terminé, nos point de blocages actuels sont la non connaissance de react qui nous empêche de transformer la réponse json que nous renvoie getImages en grille lisible et le fait que le déploiement du site ne fonctionne pas depuis github sur Azure.
