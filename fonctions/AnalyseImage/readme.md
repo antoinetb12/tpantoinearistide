@@ -8,4 +8,8 @@ For a `BlobTrigger` to work, you provide a path which dictates where the blobs a
 
 ## Learn more
 
-<TODO> Documentation
+Pour que cette fonction fonctionne il faut mettre les clés qui correspondent dans le script index.js
+
+Cette fonction récupère la photo dans le blob l'analyse avec l'api puis sauvegarde la description et le lien de la photo dans la base de donnée
+
+Si une photo est mise 2 fois avec le même nom cela ne fonctionne pas car il faut des photos différentes
