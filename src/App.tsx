@@ -9,14 +9,15 @@ const storageConfigured = isStorageConfigured();
 const App = (): JSX.Element => {
   // all blobs in container
   const [blobList, setBlobList] = useState<string[]>([]);
-
   // current file to upload into container
+  //const [imageList, setImageList]=useState<any[]>();
+
   const [fileSelected, setFileSelected] = useState(null);
 
   // UI/form management
   const [uploading, setUploading] = useState(false);
   const [inputKey, setInputKey] = useState(Math.random().toString(36));
-
+  const [trouve, setTrouve] = useState(false);
   const onFileChange = (event: any) => {
     // capture file into state
     setFileSelected(event.target.files[0]);
@@ -47,6 +48,34 @@ const App = (): JSX.Element => {
           </button>
     </div>
   )
+  /* const getImageD=()=>(
+    <div>
+      <h2>Container items</h2>
+      <ul>
+        {Object.keys(imageList).map((item,i) => {
+          return (
+            <li>
+              <div>
+                {imageList}{i}
+                <br />
+                <img src={item} alt={item} height="200" />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ); */
+  /* const getImage=async ()=>{
+    const response=await fetch('https://tpantoinearistide2.azurewebsites.net/api/getImages');
+    const body = await response.json();
+    console.log(body);
+    setImageList(body.resources);
+    /* console.log(imageList);
+    console.log(imageList[0].id) 
+    setTrouve(true);
+    
+  }; */
 
   // display file name and image
   const DisplayImagesFromContainer = () => (
@@ -67,7 +96,8 @@ const App = (): JSX.Element => {
       </ul>
     </div>
   );
-
+  
+  //getImage();
   return (
     <div>
       <h1>Upload file to Azure Blob Storage</h1>
@@ -76,6 +106,8 @@ const App = (): JSX.Element => {
       <hr />
       {storageConfigured && blobList.length > 0 && DisplayImagesFromContainer()}
       {!storageConfigured && <div>Storage is not configured.</div>}
+      {/* {trouve && getImageD()} */}
+
     </div>
   );
 };
